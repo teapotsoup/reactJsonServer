@@ -9,28 +9,28 @@ function App() {
   const handleChange = ({ target: { value } }) => setTodo(value);
   const handleEditChange = ({ target: { value } }) => setEdit(value);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    postData(todo).then((res) => {
-      setTodos(res.data);
-    });
+    const res = await postData(todo);
+    setTodos(res.data);
     setTodo("");
   };
-  const handleEditSubmit = (event) => {
+  const handleEditSubmit = async (event) => {
     event.preventDefault();
-    updateData(event.target.name, edit).then((res) => {
-      setTodos(res.data);
-    });
+    const res = await updateData(event.target.name, edit);
+    setTodos(res.data);
     setEdit("");
   };
 
-  const deleteTodo = (id) => {
-    deleteData(id).then((res) => setTodos(res.data));
+  const deleteTodo = async (id) => {
+    const res = await deleteData(id);
+    setTodos(res.data);
   };
 
   useEffect(() => {
     (async () => {
-      getData().then((res) => setTodos(res.data));
+      const res = await getData();
+      setTodos(res.data);
     })();
   }, []);
 
